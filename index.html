@@ -1,5 +1,32 @@
-<html>
+<script>
+function update() {
+
+var currentTime = new Date();
+var birthDate = new Date(document.getElementById('year').value, document.getElementById('month').value-1, document.getElementById('day').value);
+let difference = currentTime - birthDate;
+let t = Math.ceil(difference / (1000 * 3600 * 24));
+
+
+document.getElementById('heading').textContent = birthDate;
+document.getElementById('physical').textContent = 'Physical: ' + Math.sin(2 * Math.PI * t / 23);
+document.getElementById('emotional').textContent = 'Emotional: ' + Math.sin(2 * Math.PI * t / 28);
+document.getElementById('intellectual').textContent = 'Intellectual: ' + Math.sin(2 * Math.PI * t / 33);
+
+}
+</script>
+
 <body>
-Hello
+Birthday:
+<p>
+<input id='year' value=2000>
+<input id='month' value=2>
+<input id='day' value=9>
+
+<button onclick='update()'>Press</button>
+<div id='heading'></div>
+<div id='physical'></div>
+<div id='emotional'></div>
+<div id='intellectual'></div>
+
+
 </body>
-</html>
