@@ -1,28 +1,57 @@
 <script>
-function update() {
+function resetStorage() {
+  localStorage.removeItem('birthYear')
+  localStorage.removeItem('birthMonth')
+  localStorage.removeItem('birthDay')
+}
 
-var currentTime = new Date();
-var birthDate = new Date(document.getElementById('year').value, document.getElementById('month').value-1, document.getElementById('day').value);
-let difference = currentTime - birthDate;
-let t = Math.ceil(difference / (1000 * 3600 * 24));
+function loadBirthday() {
+
+if (!localStorage.birthYear) {
+return;
+}
+
+document.getElementById('year').value = localStorage.birthYear
+document.getElementById('month').value = localStorage.birthMonth
+document.getElementById('day').value = localStorage.birthDay
+
+  var dateStr = document.getElementById('year').value + '-' + document.getElementById('month').value + '-' + document.getElementById('day').value;
+  var birthDate = new Date(dateStr);
+  var currentTime = new Date();
+  let difference = currentTime - birthDate;
+  let t = Math.ceil(difference / (1000 * 3600 * 24));
+
+document.getElementById('heading').textContent = 'Your birthday set to ' + birthDate;
+document.getElementById('physical').textContent = 'Physical: ' + parseInt(Math.sin(2 * Math.PI * t / 23)*100);
+document.getElementById('emotional').textContent = 'Emotional: ' + parseInt(Math.sin(2 * Math.PI * t / 28)*100);
+document.getElementById('intellectual').textContent = 'Intellectual: ' + parseInt(Math.sin(2 * Math.PI * t / 33)*100);
 
 
-document.getElementById('heading').textContent = birthDate;
-document.getElementById('physical').textContent = 'Physical: ' + Math.sin(2 * Math.PI * t / 23);
-document.getElementById('emotional').textContent = 'Emotional: ' + Math.sin(2 * Math.PI * t / 28);
-document.getElementById('intellectual').textContent = 'Intellectual: ' + Math.sin(2 * Math.PI * t / 33);
+}
+
+function updateBirthdate() {
+
+localStorage.birthYear = document.getElementById('year').value
+localStorage.birthMonth = document.getElementById('month').value
+localStorage.birthDay = document.getElementById('day').value
+
+loadBirthday()
 
 }
 </script>
 
-<body>
-Birthday:
+<body onload=loadBirthday()>
+Version 0.0.2:
 <p>
-<input id='year' value=2000>
-<input id='month' value=2>
-<input id='day' value=9>
+<input id='year'>
+<input id='month'>
+<input id='day'>
 
-<button onclick='update()'>Press</button>
+<!--
+<button onclick='resetStorage()'>Clear Birthday</button>
+-->
+
+<button onclick='updateBirthdate()'>Change Birthday</button>
 <div id='heading'></div>
 <div id='physical'></div>
 <div id='emotional'></div>
